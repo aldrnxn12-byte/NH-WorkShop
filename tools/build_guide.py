@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import html
 import re
+import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -70,12 +71,38 @@ FOOT = """</main>
 # ── 아주 작은 마크다운 변환기 (필요한 문법만) ──────────────
 
 
+def _slug(stem: str) -> str:
+    return re.sub(r"[^0-9a-zA-Z가-힣_-]", "-", stem)
+
+
+def _href(url: str) -> str:
+    """원문끼리의 `01_설치.md` 링크를 사이트 주소 `/guide/01_설치/` 로 바꾼다."""
+    if url.startswith(("http://", "https://", "/", "#", "mailto:")):
+        return url
+    if url.endswith(".md") or ".md#" in url:
+        name, _, frag = url.partition("#")
+        slug = _slug(Path(name).stem)
+        return "/guide/%s/%s" % (slug, "#" + frag if frag else "")
+    return url
+
+
+def _img(alt: str, src: str) -> str:
+    """원문 이미지가 아직 없으면 깨진 이미지 대신 「준비 중」 칸을 보여준다.
+    스샷은 제작 창이 `docs/가이드/shots/` 에 넣는다 — 들어오면 자동으로 그림이 뜬다."""
+    if src.startswith(("http://", "https://", "/")):
+        return '<img src="%s" alt="%s">' % (src, alt)
+    if (SRC / src).exists():
+        return '<img src="/guide/shots/%s" alt="%s">' % (Path(src).name, alt)
+    label = re.sub(r"^자리\s*:\s*", "", alt).strip() or "화면"
+    return "<span class='note'>[화면 사진 준비 중 — %s]</span>" % label
+
+
 def inline(text: str) -> str:
     t = html.escape(text)
     t = re.sub(r"`([^`]+)`", r"<code>\1</code>", t)
     t = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", t)
-    t = re.sub(r"!\[([^\]]*)\]\(([^)\s]+)\)", r'<img src="\2" alt="\1">', t)
-    t = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", r'<a href="\2">\1</a>', t)
+    t = re.sub(r"!\[([^\]]*)\]\(([^)\s]+)\)", lambda m: _img(m.group(1), m.group(2)), t)
+    t = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (_href(m.group(2)), m.group(1)), t)
     return t
 
 
@@ -190,7 +217,7 @@ def collect() -> list[dict]:
         kind = re.search(r"<!--\s*guide:\s*(필수|선택)\s*-->", md)
         items.append(
             {
-                "slug": re.sub(r"[^0-9a-zA-Z가-힣_-]", "-", f.stem),
+                "slug": _slug(f.stem),
                 "title": title,
                 "kind": kind.group(1) if kind else "",
                 "free": bool(re.search(r"<!--\s*guide-free\s*-->", md)),
@@ -211,6 +238,14 @@ def write(path: Path, title: str, desc: str, body: str) -> None:
 def build() -> int:
     items = collect()
     OUT.mkdir(parents=True, exist_ok=True)
+
+    shots = SRC / "shots"
+    if shots.is_dir():
+        dst = OUT / "shots"
+        dst.mkdir(exist_ok=True)
+        for f in shots.iterdir():
+            if f.is_file():
+                shutil.copy2(f, dst / f.name)
 
     # 목차
     rows = ["<h1>설치·연결 가이드</h1>",

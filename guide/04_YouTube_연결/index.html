@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04. YouTube 연결 — NH Factory</title>
+<meta name="description" content="04. YouTube 연결">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">NH Factory</a>
+    <nav>
+      <a href="/guide/">연결 가이드</a>
+      <a href="/privacy/ko/">개인정보처리방침</a>
+      <a href="/terms/">이용약관</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<h1>04. YouTube 연결</h1>
+<blockquote class='card'>⏱ 5분 · 💰 0원 · ✅ 준비물: 올릴 채널의 Google 계정</blockquote>
+<p>프로그램은 <strong>공식 YouTube Data API</strong> 로만 올립니다. 브라우저를 대신 조작하지 않습니다.</p>
+<p>권한 범위는 <code>youtube.upload</code> <strong>하나</strong>뿐입니다 — 영상을 올리는 것 외에는 아무것도 하지 않습니다.</p>
+<h2>순서</h2>
+<ol>
+<li>1. <strong>설정 &gt; YouTube 연결</strong> 에서 <strong>YouTube 연결</strong> 을 누릅니다.</li>
+<li>2. 기본 브라우저에 Google 로그인 창이 열립니다. <strong>올릴 채널의 계정</strong>으로 로그인하세요.</li>
+<li>3. 한 계정에 채널이 여러 개면 <strong>동의 화면에서 올릴 채널(브랜드 계정)을 고릅니다.</strong></li>
+</ol>
+<p>   여기서 잘못 고르면 다른 채널에 올라갑니다.</p>
+<ol>
+<li>4. 권한 화면에서 <strong>허용</strong> 을 누르면 프로그램으로 돌아옵니다.</li>
+</ol>
+<p><span class='note'>[화면 사진 준비 중 — 채널 선택 화면]</span></p>
+<h3>⚠ 심사 통과 전이라면</h3>
+<p>이 앱은 아직 Google 심사 중입니다. 그래서:</p>
+<ul>
+<li>- 「<strong>확인되지 않은 앱</strong>」 경고가 뜹니다 → <strong>고급</strong> → 앱 이름으로 이동.</li>
+<li>- <strong>테스트 사용자로 등록된 계정만 연결됩니다.</strong></li>
+</ul>
+<p>  → 연결하려는 <strong>Google 계정 주소</strong>를 담당자에게 보내 테스트 사용자 등록을 요청하세요. (연락처: ace@kkuming.kr)</p>
+<p>🔍 <strong>잘 됐는지 확인</strong>: 설정에 「연결됨」 과 <strong>채널 이름</strong>이 보입니다. 프로필의 채널명과 다르면 빨간 경고가 뜹니다.</p>
+<h2>올릴 때</h2>
+<p>⑥업로드 → 제목·설명 확인 → <strong>공개 범위는 처음엔 「비공개(private)」</strong> → <strong>YouTube 에 올리기</strong> →</p>
+<p>확인 창에서 채널 이름을 한 번 더 보고 <strong>올리기</strong>.</p>
+<ul>
+<li>- <strong>AI 사용 공개</strong>(변경·합성된 콘텐츠)는 항상 「예」로 올라갑니다.</li>
+</ul>
+<h2>연결 해제 · 권한 철회</h2>
+<ul>
+<li>- 프로그램에서: 설정 &gt; YouTube 연결 &gt; <strong>연결 해제</strong></li>
+<li>- Google 쪽에서: https://myaccount.google.com/permissions → 해당 앱 → 액세스 권한 삭제</li>
+</ul>
+<h2>🧯 막히면</h2>
+<div style='overflow-x:auto'><table><thead><tr>
+<th>증상</th>
+<th>해결</th>
+</tr></thead><tbody>
+<tr><td>로그인 후 「액세스 차단됨」</td><td>테스트 사용자로 등록되지 않은 계정입니다(위 요청 방법).</td></tr>
+<tr><td>다른 채널에 올라감</td><td>연결 해제 후 다시 연결하면서 동의 화면에서 채널을 다시 고르세요.</td></tr>
+<tr><td>「할당량 초과」</td><td>하루 한도입니다. 내일 다시 시도하세요.</td></tr>
+</tbody></table></div>
+<h2>고급 — 내 Google Cloud 클라이언트 쓰기</h2>
+<p>회사·개인 프로젝트로 따로 쓰고 싶으면 설정에서 내 client JSON 을 등록할 수 있습니다.</p>
+<p>만드는 방법은 <code>docs/심사/1_Google설정_따라하기.md</code> 를 참고하세요.</p>
+<p>🔒 <strong>주의</strong>: client JSON·토큰을 남에게 보내지 마세요.</p><hr><p class='note'><a href='/guide/03_음성엔진_채널목소리/'>← 03. 음성 엔진과 채널 목소리</a> · <a href='/guide/'>목차</a> · <a href='/guide/05_AI_무료모드_채팅왕복/'>05. AI 무료 모드 (채팅 왕복) →</a></p></main>
+
+<footer class="site">
+  <div class="wrap">
+    <nav>
+      <a href="/">홈</a>
+      <a href="/guide/">연결 가이드</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/privacy/ko/">개인정보처리방침</a>
+      <a href="/terms/">이용약관</a>
+    </nav>
+    <p>&copy; 2026 나흘공방(대표 방하늘). NH Factory는 YouTube 또는 Google과 제휴 관계가 없으며 보증을 받지 않았습니다.</p>
+  </div>
+</footer>
+</body>
+</html>
