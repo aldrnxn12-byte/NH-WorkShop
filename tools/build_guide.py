@@ -242,9 +242,9 @@ def build() -> int:
     shots = SRC / "shots"
     if shots.is_dir():
         dst = OUT / "shots"
-        dst.mkdir(exist_ok=True)
         for f in shots.iterdir():
             if f.is_file():
+                dst.mkdir(exist_ok=True)
                 shutil.copy2(f, dst / f.name)
 
     # 목차
