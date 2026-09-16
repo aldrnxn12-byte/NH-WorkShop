@@ -173,3 +173,18 @@ code {
   border-radius: 4px;
   padding: 1px 5px;
 }
+
+/* Threads 콜백 페이지에서 인증 코드를 보여 줄 때 */
+.code-block {
+  display: block;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  word-break: break-all;
+}
+
+button.btn {
+  font: inherit;
+  cursor: pointer;
+}

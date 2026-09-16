@@ -20,7 +20,7 @@
 
 <main class="wrap">
   <h1>개인정보처리방침 — NH Factory</h1>
-  <p class="eff">시행일: 2026-09-16 &middot; <a href="/privacy/">View in English</a></p>
+  <p class="eff">시행일: 2026-09-16 (2026-09-16 개정) &middot; <a href="/privacy/">View in English</a></p>
   <p class="note">이 문서는 영문 원문(<a href="/privacy/">Privacy Policy</a>)의 한국어 번역본입니다. 두 문서의 내용은 같습니다.</p>
 
   <h2>1. 운영자</h2>
@@ -52,20 +52,35 @@
   <h2>5. 사용자가 직접 연결하는 다른 서비스</h2>
   <p>사용자가 AI 서비스(예: OpenAI, Anthropic, Google Gemini, ElevenLabs)의 API 키를 직접 입력하면, 사용자가 만드는 텍스트·이미지·음성은 사용자 PC에서 해당 서비스로 직접 전송되며 각 서비스의 약관과 개인정보처리방침이 적용됩니다. 운영자는 이 데이터를 받지 않습니다. 키는 사용자 PC의 Windows 자격 증명 관리자에만 저장됩니다.</p>
 
-  <h2>6. 음성 녹음</h2>
+  <h2>6. Threads(Meta) API</h2>
+  <p>Threads 계정 연결은 선택입니다. 연결하는 경우 앱은 아래 권한만, 아래 목적으로만 사용합니다.</p>
+  <ul>
+    <li><code>threads_basic</code> &mdash; 연결된 계정 정보를 읽어 「어느 계정에 연결됐는지」 화면에 보여 줍니다.</li>
+    <li><code>threads_content_publish</code> &mdash; 사용자가 그 글의 게시 버튼을 누를 때<strong>만</strong> 게시합니다.</li>
+    <li><code>threads_keyword_search</code> &mdash; 사용자가 입력한 주제로 공개 글을 찾아 글감 조사에 씁니다.</li>
+    <li><code>threads_read_replies</code> &mdash; 사용자 본인 글에 달린 답글을 앱에서 보여 줍니다.</li>
+    <li><code>threads_manage_replies</code> &mdash; 사용자가 그 답글의 버튼을 누를 때<strong>만</strong> 답글을 달거나 숨깁니다.</li>
+    <li><code>threads_manage_insights</code> &mdash; 사용자 본인 글의 조회·반응 수를 보여 줍니다.</li>
+  </ul>
+  <p>접근 토큰은 사용자 PC 의 Windows 자격 증명 관리자에만 저장됩니다. 운영자는 서버가 없으므로 Threads 계정 정보·글·답글·토큰이 운영자에게 전송되거나 보관되는 일이 없습니다. 자동으로, 또는 예약으로 게시·답글·삭제하는 기능은 없습니다.</p>
+  <p>연결 해제: 앱 &gt; 설정 &gt; Threads &gt; 연결 해제 를 누르면 저장된 토큰이 삭제됩니다. Threads 앱 &gt; 설정 &gt; 계정 &gt; 웹사이트 권한 에서도 권한을 해제할 수 있습니다. <a href="/threads/deauthorize/">연결 해제 안내</a> · <a href="/threads/delete/">데이터 삭제 안내</a></p>
+  <p>NH Factory 는 Meta·Threads 와 제휴 관계가 없으며 보증을 받지 않았습니다.</p>
+
+  <h2>7. 음성 녹음</h2>
   <p>&ldquo;내 목소리&rdquo; 기능을 사용하는 경우, 녹음과 음성 모델은 사용자 PC에 남습니다(ElevenLabs를 선택한 경우에는 해당 서비스의 약관에 따라 ElevenLabs로 전송됩니다). 설정에서 언제든지 삭제할 수 있습니다.</p>
 
-  <h2>7. 권한 철회와 데이터 삭제</h2>
+  <h2>8. 권한 철회와 데이터 삭제</h2>
   <ul>
     <li>앱 안에서: 설정 &gt; YouTube &gt; 연결 해제 를 누르면 저장된 토큰과 캐시된 YouTube 데이터가 삭제됩니다.</li>
     <li>Google 계정에서: <a href="https://security.google.com/settings/security/permissions">https://security.google.com/settings/security/permissions</a></li>
+    <li>앱 안에서: 설정 &gt; Threads &gt; 연결 해제 를 누르면 저장된 Threads 토큰이 삭제됩니다. Threads 앱 &gt; 설정 &gt; 계정 &gt; 웹사이트 권한 에서도 해제할 수 있습니다.</li>
     <li>앱을 제거하고 데이터 폴더를 삭제하면 로컬에 저장된 모든 데이터가 사라집니다.</li>
   </ul>
 
-  <h2>8. 아동</h2>
+  <h2>9. 아동</h2>
   <p>이 앱은 아동을 대상으로 하지 않습니다.</p>
 
-  <h2>9. 변경</h2>
+  <h2>10. 변경</h2>
   <p>변경 사항은 이 페이지에 게시하고 시행일을 갱신합니다.</p>
 </main>
 

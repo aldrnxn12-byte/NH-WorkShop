@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Threads 연결 — NH Factory</title>
+<meta name="description" content="Threads 로그인 결과를 NH공장 앱으로 돌려보냅니다.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">NH Factory</a>
+    <nav>
+      <a href="/guide/">연결 가이드</a>
+      <a href="/privacy/ko/">개인정보처리방침</a>
+      <a href="/terms/">이용약관</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Threads 연결</h1>
+
+  <div class="card" id="box">
+    <p id="msg">확인하는 중입니다…</p>
+  </div>
+
+  <div class="card" id="manual" hidden>
+    <p><strong>NH공장 앱으로 돌아가</strong> 설정 &gt; Threads 의 <strong>[코드 붙여넣기]</strong> 칸에 아래 코드를 넣어 주세요.</p>
+    <p><code id="code" class="code-block"></code></p>
+    <p><button id="copy" class="btn">코드 복사</button> <span id="copied" class="note" hidden>복사했습니다.</span></p>
+  </div>
+
+  <p class="note">
+    이 페이지는 로그인 결과를 <strong>사용자 PC 의 NH공장 앱</strong>으로 넘기기만 합니다.
+    코드를 서버로 보내지 않고, 저장하지도 않습니다. 이 사이트에는 분석·광고 스크립트가 없습니다.<br>
+    This page only hands the sign-in result to NH Factory running on your own PC. The code is never sent to or stored on any server.
+  </p>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <nav>
+      <a href="/">Home</a>
+      <a href="/guide/">설치·연결 가이드</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/privacy/ko/">개인정보처리방침 (한국어)</a>
+      <a href="/terms/">Terms of Service</a>
+    </nav>
+    <p>&copy; 2026 Haneul Bang (방하늘), Naheul Gongbang (나흘공방). NH Factory is not affiliated with or endorsed by Meta or Threads.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var code = q.get('code');
+  var state = q.get('state') || '';
+  var err = q.get('error');
+  var errDesc = q.get('error_description') || q.get('error_reason') || '';
+  var msg = document.getElementById('msg');
+  var manual = document.getElementById('manual');
+
+  function showManual(text) {
+    if (!code) return;
+    document.getElementById('code').textContent = code;
+    manual.hidden = false;
+    if (text) msg.textContent = text;
+  }
+
+  if (err) {
+    msg.innerHTML = '<strong>연결이 취소되었거나 거부되었습니다.</strong><br>' +
+      'NH공장 앱으로 돌아가 다시 [Threads 연결] 을 눌러 주세요.' +
+      (errDesc ? '<br><span class="note">' + errDesc.replace(/[<>&]/g, '') + '</span>' : '') +
+      '<br><span class="note">Sign-in was cancelled or denied. Go back to NH Factory and try again.</span>';
+    document.title = 'Threads 연결 실패 — NH Factory';
+    return;
+  }
+
+  if (!code) {
+    msg.innerHTML = '<strong>주소에 로그인 결과가 없습니다.</strong><br>' +
+      'NH공장 앱의 설정 &gt; Threads 에서 <strong>[Threads 연결]</strong> 을 눌러 시작해 주세요.' +
+      '<br><span class="note">This page opens by itself during sign-in. Start from the app.</span>';
+    return;
+  }
+
+  // state = "<랜덤>.<로컬포트>" — 포트만 뽑아 쓴다. 숫자 1024~65535 만 허용.
+  var port = null;
+  var m = /(?:^|\.)(\d{4,5})$/.exec(state);
+  if (m) {
+    var n = parseInt(m[1], 10);
+    if (n >= 1024 && n <= 65535) port = n;
+  }
+
+  if (port === null) {
+    showManual('앱이 어느 창에서 기다리는지 알 수 없습니다.');
+    return;
+  }
+
+  var target = 'http://127.0.0.1:' + port + '/api/threads/oauth/callback'
+    + '?code=' + encodeURIComponent(code)
+    + '&state=' + encodeURIComponent(state);
+
+  msg.innerHTML = 'NH공장 앱으로 돌아가는 중입니다…<br>' +
+    '<span class="note">창이 그대로면 아래 코드를 앱에 직접 넣어 주세요.</span>';
+
+  // 앱이 응답하지 않으면 3초 뒤 수동 안내를 띄운다.
+  var timer = setTimeout(function () {
+    showManual('앱으로 자동으로 돌아가지 못했습니다.');
+  }, 3000);
+
+  try {
+    location.replace(target);
+  } catch (e) {
+    clearTimeout(timer);
+    showManual('앱으로 자동으로 돌아가지 못했습니다.');
+  }
+
+  document.getElementById('copy').addEventListener('click', function () {
+    var t = document.getElementById('code').textContent;
+    function done() {
+      var c = document.getElementById('copied');
+      c.hidden = false;
+      setTimeout(function () { c.hidden = true; }, 2000);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(done, function () {});
+    } else {
+      var r = document.createRange();
+      r.selectNodeContents(document.getElementById('code'));
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(r);
+      try { document.execCommand('copy'); done(); } catch (e) {}
+    }
+  });
+})();
+</script>
+</body>
+</html>
